@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6164448304818722738}
   - component: {fileID: 4157619411322884496}
   - component: {fileID: 3044138620638836224}
+  - component: {fileID: 5964622436669256101}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -112,3 +113,18 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5964622436669256101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4082571942778785582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d9b8a3820850ef4db186d580fcd16cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyMover
+  targetTransform: {fileID: 0}
+  speed: 5
+  arrivalDistance: 0.1
