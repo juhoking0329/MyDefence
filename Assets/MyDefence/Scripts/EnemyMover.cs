@@ -11,7 +11,7 @@ namespace MyDefence
         [SerializeField] private float speed = 5.0f;
         [SerializeField] private float arrivalDistance = 0.1f;
 
-        // [변경] 매 프레임 계산하지 않고, 처음에 정해진 방향을 기억할 변수입니다.
+        // 매 프레임 계산하지 않고, 처음에 정해진 방향을 기억할 변수입니다.
         private Vector3 moveDir;
         private bool isDirectionSet = false;
 
@@ -29,7 +29,7 @@ namespace MyDefence
             // 타겟이나 방향이 설정되지 않았다면 멈춰섭니다.
             if (targetTransform == null || !isDirectionSet) return;
 
-            // [변경] 매번 방향을 새로 구하지 않고, 처음에 고정된 moveDir 방향으로만 '똑바로' 전진합니다!
+            // 매번 방향을 새로 구하지 않고, 처음에 고정된 moveDir 방향으로만 '똑바로' 전진합니다!
             // 이 덕분에 뒤 차가 앞 차의 궤적을 그대로 일정 간격 유지하며 따라가게 됩니다.
             transform.Translate(moveDir * speed * Time.deltaTime, Space.World);
 
