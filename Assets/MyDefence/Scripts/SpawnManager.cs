@@ -50,6 +50,18 @@ namespace MyDefence
                     yield return new WaitForSeconds(spawnDelay);
                 }
 
+                // ★★★ [새로 추가된 곳] 모든 에너미가 소멸할 때까지 실시간 감시하며 대기 ★★★
+                // GameObject.FindGameObjectsWithTag("Enemy").Length 는 현재 맵에 있는 에너미의 총 개수입니다.
+                while (GameObject.FindGameObjectsWithTag("Enemy").Length > 0)
+                {
+                    // 아직 적이 남아있다면 딱 1프레임(약 0.01초)만 쉬고 다음 프레임에 다시 개수를 검사합니다.
+                    // 이 덕분에 유니티가 멈추지(렉 걸리지) 않고 부드럽게 대기할 수 있어요!
+                    yield return null;
+                }
+
+                // ★★★ [새로 추가된 곳] 위의 while문(대기)을 빠져나왔다는 건 적이 0마리가 되었다는 뜻! ★★★
+                Debug.Log($"<color=green>{currentWave}웨이브 클리어!</color>");
+
                 // --- 다음 웨이브 준비를 '소환이 모두 완전히 끝난 뒤'에 합니다 ---
                 currentWave++;
 

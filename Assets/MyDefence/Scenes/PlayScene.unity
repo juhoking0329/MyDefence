@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 231032161}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -303,8 +303,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.45511475, y: 0.0007810295, z: -0.00035768005, w: -0.8904324}
-  m_LocalPosition: {x: -2, y: 14, z: -12}
+  m_LocalRotation: {x: -0.5110436, y: 0.001053095, z: -0.0006215424, w: -0.859554}
+  m_LocalPosition: {x: -2.9262204, y: 16.691319, z: -8.1219015}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -872,11 +872,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &845114098 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1568217480136515867, guid: f5b2e8d7c29087843856068679a7e5e9, type: 3}
-  m_PrefabInstance: {fileID: 2422404396065042648}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &920403230
 GameObject:
   m_ObjectHideFlags: 0
@@ -926,26 +921,16 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &985294834 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8879214954104161296, guid: f5b2e8d7c29087843856068679a7e5e9, type: 3}
+--- !u!4 &985294837 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9213623019150649940, guid: f5b2e8d7c29087843856068679a7e5e9, type: 3}
   m_PrefabInstance: {fileID: 2422404396065042648}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &985294836
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+--- !u!4 &1045797801 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9171890240333407905, guid: f5b2e8d7c29087843856068679a7e5e9, type: 3}
+  m_PrefabInstance: {fileID: 2422404396065042648}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 985294834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b9954123287d5c4e840869eed4452c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TurretController
-  turretHead: {fileID: 845114098}
-  attackRange: 7
-  rotationSpeed: 10
 --- !u!1 &1076038716
 GameObject:
   m_ObjectHideFlags: 0
@@ -1782,6 +1767,29 @@ Transform:
   - {fileID: 1651122140}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2097659611 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7632230063499664732, guid: f5b2e8d7c29087843856068679a7e5e9, type: 3}
+  m_PrefabInstance: {fileID: 2422404396065042648}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2097659613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2097659611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b9954123287d5c4e840869eed4452c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TurretController
+  turretHead: {fileID: 985294837}
+  attackRange: 7
+  rotationSpeed: 10
+  bulletPrefab: {fileID: 6167852448571706759, guid: 179a1cf996937a946909ef2ca8c4f8b9, type: 3}
+  firePoint: {fileID: 1045797801}
+  fireRate: 1
 --- !u!1001 &2422404396065042648
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1834,13 +1842,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: MachineGunTower
       objectReference: {fileID: 0}
+    - target: {fileID: 8649030591787266303, guid: f5b2e8d7c29087843856068679a7e5e9, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8879214954104161296, guid: f5b2e8d7c29087843856068679a7e5e9, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 7632230063499664732, guid: f5b2e8d7c29087843856068679a7e5e9, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 985294836}
+      addedObject: {fileID: 2097659613}
   m_SourcePrefab: {fileID: 100100000, guid: f5b2e8d7c29087843856068679a7e5e9, type: 3}
 --- !u!1001 &3325175672807517149
 PrefabInstance:
