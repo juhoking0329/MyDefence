@@ -3,7 +3,7 @@ using UnityEngine;
 public class BulletMover : MonoBehaviour
 {
     [Header("탄환 설정")]
-    [SerializeField] private float speed = 70.0f; // 이동 속도 (과제 조건: 70)
+    [SerializeField] private float speed = 70.0f; // 이동 속도
     [SerializeField] private float hitDistance = 0.2f; // 타격 판정 거리
 
     [Header("이펙트 설정")]

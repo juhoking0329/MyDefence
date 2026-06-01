@@ -313,6 +313,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7198073129036350987}
   - component: {fileID: 8649030591787266303}
+  - component: {fileID: 5090397576681355251}
   m_Layer: 10
   m_Name: MachineGunTower
   m_TagString: Untagged
@@ -344,11 +345,35 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7632230063499664732}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2402604f3ba145b479564bf3d5e51f4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tower
+  attackRange: 7
+  partToRotate: {fileID: 9213623019150649940}
+  turnSpeed: 10
+  searchTimer: 0.2
+  fireTimer: 1
+  firePoint: {fileID: 9171890240333407905}
+--- !u!114 &5090397576681355251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7632230063499664732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b9954123287d5c4e840869eed4452c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TurretController
+  turretHead: {fileID: 9213623019150649940}
+  attackRange: 7
+  rotationSpeed: 10
+  bulletPrefab: {fileID: 6167852448571706759, guid: 179a1cf996937a946909ef2ca8c4f8b9, type: 3}
+  firePoint: {fileID: 9171890240333407905}
+  fireRate: 1
 --- !u!1 &8741835128968300339
 GameObject:
   m_ObjectHideFlags: 0

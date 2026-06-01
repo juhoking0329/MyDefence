@@ -23,6 +23,10 @@ namespace MyDefence
         //발사 타이머 1초에 한발씩
         public float fireTimer = 1.0f;
         private float fireCountdown = 0f;
+
+        //탄환 발사
+        private GameObject bulletPrefab;        //탄환 오브젝트 프리팹   
+        public Transform firePoint;             //탄환 발사 위치
         #endregion
 
         #region Unity Events Methods
@@ -48,9 +52,9 @@ namespace MyDefence
             fireCountdown += Time.deltaTime;
             if(fireCountdown >= fireTimer)
             {
-                Debug.Log("Shoot");
-
-
+                //Debug.Log("Shoot");
+                Shoot();
+                fireCountdown = 0f; fireTimer = 1.0f;
             }
 
             //타겟(가장 가까운 Enemy)의 움직임에 따라 터렛 헤드가 타겟 방향으로 회전한다
@@ -112,8 +116,27 @@ namespace MyDefence
             }
         }
 
-        //타겟(가장 가까운 Enemy)의 움직임에 따라 터렛 헤드가 타겟 방향으로 회전한다
+        /*//타겟(가장 가까운 Enemy)의 움직임에 따라 터렛 헤드가 타겟 방향으로 회전한다
+        Vector3 dir = target.transform.position - partToRotate.position;
+        //목표 방향에 해당되는 회전값 구하기
+        private Quaternion lookRotation = Quaternion.LookRotation(dir);
+        */
 
+        //탄환 발사
+        void Shoot()
+        {
+            //Debug.Log("Shoot");
+            //총구 위치와 회전값에 탄환 프리팹 사본 생성(Instantiate)
+            GameObject bulletGo = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            //탄환 오브젝트에 부착되어 있는 Bullet 클래스의 인스턴스 가져오기
+            Bullet bullet = bulletGo.GetComponent<Bullet>();
+
+            //타겟정보를 bullet에게 넘겨준다
+            if (bullet != null)
+            {
+                bullet.SetTarget(target.transform);
+            }
+        }
         #endregion
     }
 }
