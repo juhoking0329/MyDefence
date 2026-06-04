@@ -8,6 +8,7 @@ namespace MySample
     public class OldInputTest : MonoBehaviour
     {
         #region Variables
+
         #endregion
 
         #region Unity Event Methods
