@@ -5,9 +5,9 @@ namespace MySample
 {
     /// <summary>
     /// 게임중 유저 인풋 값을 New Input System 가져와서 적용하기
-    /// 2) SendMessage 방법
+    /// 3) Unity Event 등록 방법
     /// </summary>
-    public class NewInputTest2 : MonoBehaviour
+    public class NewInputTest3 : MonoBehaviour
     {
         #region Variables
         //New Input System에서 만들어 클래스의 객체 선언
@@ -65,21 +65,26 @@ namespace MySample
 
         #region Custom Method
         //상하좌우 wasd 입력 처리
-        public void OnMove(InputValue value)
+        public void OnMove(InputAction.CallbackContext context)
         {
-            inputVector = value.Get<Vector2>();
+            inputVector = context.ReadValue<Vector2>();
         }
 
+
         //마우스 위치 입력 처리
-        public void OnMousePosition(InputValue value)
+        public void OnMousePostion(InputAction.CallbackContext context)
         {
-            mousePos = value.Get<Vector2>();
+            mousePos = context.ReadValue<Vector2>();
         }
 
         //토글 버튼 입력 처리
-        public void OnEscToggle(InputValue value)
+        public void OnEscToggle(InputAction.CallbackContext context)
         {
-            if (value.isPressed)
+            //context.started 누르기 시작했을때 1회 호출
+            //context.canceled 눌렀다가 뗄때
+            //context.performed 눌렀을때 1회 호출
+
+            if (context.performed)
             {
                 Debug.Log("토글버튼이 눌렸다");
                 isCannotMove = !isCannotMove;

@@ -531,6 +531,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MySample.NewInputTest
   moveSpeed: 10
+  border: 15
 --- !u!1001 &356545681
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1366,7 +1367,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc99f5f8f7ed48340a67cf94aec46259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildManager
-  machineGunTurretPrefab: {fileID: 7632230063499664732, guid: f5b2e8d7c29087843856068679a7e5e9, type: 3}
+  machineGunTowerPrefab: {fileID: 0}
+  anotherTowerPrefab: {fileID: 0}
 --- !u!4 &1231479180
 Transform:
   m_ObjectHideFlags: 0
@@ -1594,7 +1596,6 @@ GameObject:
   - component: {fileID: 1495900122}
   - component: {fileID: 1495900121}
   - component: {fileID: 1495900120}
-  - component: {fileID: 1495900119}
   m_Layer: 0
   m_Name: Main Camera2
   m_TagString: MainCamera
@@ -1602,20 +1603,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1495900119
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1495900118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adb8290c75e30194f9170ae0e700fb3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MySample.NewInputTest2
-  moveSpeed: 10
-  bordor: 15
 --- !u!114 &1495900120
 MonoBehaviour:
   m_ObjectHideFlags: 0
