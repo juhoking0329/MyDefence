@@ -28,8 +28,6 @@ namespace MyDefence
         #region Custom Methods
         public void OnPointerEnter(PointerEventData eventData)
         {
-            // 과제 3) 마우스가 UI 위에 있으면 타일 상호작용 무시
-            if (EventSystem.current.IsPointerOverGameObject()) return;
             if (isTurretBuilt) return;
 
             // 과제 2-4) 만약 상점에서 선택한 타워가 없다면 하이라이트(머티리얼 변경) 안 함!
@@ -48,9 +46,6 @@ namespace MyDefence
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            // 과제 3) 클릭한 순간 마우스가 UI 위에 있다면 타워 설치 금지!
-            if (EventSystem.current.IsPointerOverGameObject()) return;
-
             if (isTurretBuilt)
             {
                 Debug.Log("여기에는 이미 터렛이 설치되어 있습니다!");

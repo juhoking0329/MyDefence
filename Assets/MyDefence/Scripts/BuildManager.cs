@@ -9,7 +9,7 @@ namespace MyDefence
         #region Variables
         [Header("타워 프리팹 등록")]
         [SerializeField] private GameObject machineGunTowerPrefab;
-        [SerializeField] private GameObject anotherTowerPrefab;
+        [SerializeField] private GameObject missileLauncherPrefab;
 
         // 현재 유저가 버튼을 눌러 선택한 타워 프리팹을 임시 저장하는 변수 (선택 안 하면 null)
         private GameObject towerToBuild = null;
@@ -34,12 +34,12 @@ namespace MyDefence
         }
 
         /// <summary>
-        /// 과제 4-1, 2) 두 번째 버튼 클릭 시 실행: 다른 타워 선택
+        /// 과제 3-1) 세 번째 버튼 클릭 시 실행: 미사일 런처 선택
         /// </summary>
-        public void SelectAnotherTower()
+        public void SelectMissileLauncher()
         {
-            Debug.Log("다른 타워 선택 하였습니다!");
-            towerToBuild = anotherTowerPrefab;
+            Debug.Log("미사일 런처를 선택 하였습니다!!");
+            towerToBuild = missileLauncherPrefab;
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace MyDefence
             Instantiate(towerToBuild, tileTransform.position, Quaternion.identity);
 
             // ★ 중요: 타워를 설치하고 나면 선택을 초기화하고 싶다면 아래 주석을 해제하세요.
-            // towerToBuild = null; 
+            towerToBuild = null; 
         }
         #endregion
     }
