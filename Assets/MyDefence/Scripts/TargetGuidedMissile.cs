@@ -2,43 +2,19 @@ using UnityEngine;
 
 namespace MyDefence
 {
-    public class TargetGuidedMissile : MonoBehaviour
+    /// <summary>
+    /// Bullet 부모 클래스를 상속받아 광역 스플래시 데미지를 주는 미사일 클래스
+    /// </summary>
+    public class TargetGuidedMissile : Bullet
     {
         #region Variables
-        [Header("미사일 수치 설정 (과제 2, 4번)")]
-        [SerializeField] private float speed = 50f;          // 이동 속도 50
+        [Header("미사일 전용 수치 설정")]
         [SerializeField] private float damageRange = 3.5f;   // 스플래시 범위 반경 3.5
-
-        [Header("타격 시각 효과 (과제 6번)")]
-        [SerializeField] private GameObject explosionEffectPrefab; // 파티클+조명이 합쳐진 폭발 이펙트 프리팹
-
-        private Transform target;
         #endregion
 
         #region Unity Event Methods
-        void Update()
-        {
-            if (target == null)
-            {
-                Destroy(gameObject); // 타겟이 사라지면 미사일도 파괴
-                return;
-            }
-
-            // 타겟을 향해 날아가기
-            Vector3 dir = target.position - transform.position;
-            float distanceThisFrame = speed * Time.deltaTime;
-
-            // 이번 프레임에 적에게 도달했다면 타격 처리
-            if (dir.magnitude <= distanceThisFrame)
-            {
-                HitTarget();
-                return;
-            }
-
-            // 적 방향으로 전진 및 회전
-            transform.Translate(dir.normalized * distanceThisFrame, Space.World);
-            transform.LookAt(target);
-        }
+        // Update()는 부모(Bullet)에 이미 완벽하게 구현되어 있으므로 
+        // 굳시 새로 적지 않아도 부모의 기능을 그대로 물려받아 자동 작동합니다!
 
         // 과제 5) 미사일의 폭발 범위(3.5)를 기즈모 선으로 표시
         private void OnDrawGizmosSelected()
@@ -50,25 +26,17 @@ namespace MyDefence
 
         #region Custom Methods
         /// <summary>
-        /// 런처에서 미사일을 쏠 때 타겟 정보를 넘겨받는 함수입니다.
+        /// 부모의 HitTarget() 메서드를 미사일 전용 광역 폭발 로직으로 덮어씁니다(Override).
         /// </summary>
-        public void SetTarget(Transform _target)
-        {
-            target = _target;
-        }
-
-        /// <summary>
-        /// 과제 4-2) 타격 지점 반경 3.5 안의 모든 Enemy를 감지하여 파괴하고 이펙트를 생성합니다.
-        /// </summary>
-        private void HitTarget()
+        protected override void HitTarget()
         {
             // [업그레이드] 미사일 전용 거대 폭발 로그 출력!
             Debug.Log($"💥 [MISSILE] 미사일이 {target.name}에 명중하여 대폭발을 일으켰습니다!!! 💥");
 
-            // 이펙트 스폰 (과제 6번 연동)
-            if (explosionEffectPrefab != null)
+            // 부모의 impactEffect 변수를 그대로 활용하여 폭발 이펙트 생성
+            if (impactEffect != null)
             {
-                GameObject effect = Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
+                GameObject effect = Instantiate(impactEffect, transform.position, Quaternion.identity);
                 Destroy(effect, 2f); // 2초 뒤 이펙트 자동 삭제
             }
 

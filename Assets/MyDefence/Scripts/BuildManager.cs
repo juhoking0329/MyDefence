@@ -7,12 +7,12 @@ namespace MyDefence
         public static BuildManager instance;
 
         #region Variables
-        [Header("타워 프리팹 등록")]
-        [SerializeField] private GameObject machineGunTowerPrefab;
-        [SerializeField] private GameObject missileLauncherPrefab;
+        [Header("과제 1, 2) 직렬화된 타워 품목 등록")]
+        [SerializeField] private TowerBlueprint machineGunTower;
+        [SerializeField] private TowerBlueprint rocketTower;
 
-        // 현재 유저가 버튼을 눌러 선택한 타워 프리팹을 임시 저장하는 변수 (선택 안 하면 null)
-        private GameObject towerToBuild = null;
+        // 현재 유저가 선택한 품목의 '청사진(정보)'을 저장하는 변수
+        private TowerBlueprint towerToBuild = null;
         #endregion
 
         #region Unity Event Methods
@@ -25,40 +25,49 @@ namespace MyDefence
 
         #region Custom Methods
         /// <summary>
-        /// 과제 2-2) 첫 번째 버튼 클릭 시 실행: 머신건 타워 선택
+        /// 첫 번째 버튼 클릭 시: 머신건 타워 청사진 선택
         /// </summary>
         public void SelectMachineGunTower()
         {
             Debug.Log("머신건 타워를 선택 하였습니다!!");
-            towerToBuild = machineGunTowerPrefab;
+            towerToBuild = machineGunTower;
         }
 
         /// <summary>
-        /// 과제 3-1) 세 번째 버튼 클릭 시 실행: 미사일 런처 선택
+        /// 두 번째 버튼 클릭 시: 로켓 타워 청사진 선택
         /// </summary>
-        public void SelectMissileLauncher()
+        public void SelectAnotherTower()
         {
-            Debug.Log("미사일 런처를 선택 하였습니다!!");
-            towerToBuild = missileLauncherPrefab;
+            Debug.Log("로켓 타워(다른 타워)를 선택 하였습니다!");
+            towerToBuild = rocketTower;
         }
 
         /// <summary>
-        /// 과제 2-1) 현재 타워가 선택되어 있는지 확인하는 함수
+        /// 현재 설치 항목이 선택되어 있는지 확인
         /// </summary>
         public bool HasTowerSelected => towerToBuild != null;
 
         /// <summary>
-        /// 과제 2-3, 4-3) 타일에서 호출하여 타워를 진짜 설치하는 함수
+        /// 과제 4, 5) 타일에서 호출하여 실제 돈을 검사하고 타워를 건설하는 함수
         /// </summary>
-        public void BuildTowerOn(Transform tileTransform)
+        public bool BuildTowerOn(Transform tileTransform)
         {
-            if (towerToBuild == null) return;
+            if (towerToBuild == null) return false;
 
-            // 선택된 타워 프리팹을 타일 위치에 생성
-            Instantiate(towerToBuild, tileTransform.position, Quaternion.identity);
+            // 과제 5) 소지금이 타워 가격보다 부족하면 건설 실패!
+            if (GameData.money < towerToBuild.cost)
+            {
+                Debug.Log("돈이 부족합니다");
+                return false; // 건설 실패를 타일에 알림
+            }
 
-            // ★ 중요: 타워를 설치하고 나면 선택을 초기화하고 싶다면 아래 주석을 해제하세요.
-            towerToBuild = null; 
+            // 과제 4) 돈 계산 후 차감 및 건설 진행
+            GameData.money -= towerToBuild.cost;
+            Debug.Log($"건설하고 남은돈 : {GameData.money}");
+
+            // 타워 스폰
+            Instantiate(towerToBuild.towerPrefab, tileTransform.position, Quaternion.identity);
+            return true; // 건설 성공!
         }
         #endregion
     }

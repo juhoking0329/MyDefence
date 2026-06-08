@@ -219,9 +219,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fb0e01b3495a1e4dba132d51dff1185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MyDefence.TargetGuidedMissile
-  speed: 50
+  moveSpeed: 50
+  impactEffect: {fileID: 2833194796520619671, guid: 5fc9e3b70f0e84849a81bed2955f69db, type: 3}
   damageRange: 3.5
-  explosionEffectPrefab: {fileID: 2833194796520619671, guid: 5fc9e3b70f0e84849a81bed2955f69db, type: 3}
 --- !u!1 &1827127167504934
 GameObject:
   m_ObjectHideFlags: 0

@@ -59,11 +59,15 @@ namespace MyDefence
                 return;
             }
 
-            // 과제 2-3, 4-3) 조건 통과 시 타워 설치 진행
-            BuildManager.instance.BuildTowerOn(transform);
-            isTurretBuilt = true;
+            // 과제 4, 5번 연동: 돈이 충분해서 건설에 최종 성공했을 때만!
+            bool isSuccess = BuildManager.instance.BuildTowerOn(transform);
 
-            if (normalMaterial != null) rend.material = normalMaterial;
+            if (isSuccess)
+            {
+                isTurretBuilt = true; // 타일에 타워가 지어졌다고 박제!
+                if (normalMaterial != null) rend.material = normalMaterial; // 색상 복구
+            }
+            // (만약 isSuccess가 false(돈 부족)라면, 아무 일도 안 일어나고 타일은 계속 설치 가능한 상태로 남습니다.)
         }
         #endregion
     }
