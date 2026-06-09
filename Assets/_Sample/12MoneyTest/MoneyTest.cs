@@ -4,7 +4,7 @@ using TMPro;
 
 namespace MySample
 {
-    public class SampleEconomyTest : MonoBehaviour
+    public class MoneyTest : MonoBehaviour
     {
         #region Variables
         [Header("UI 연동")]

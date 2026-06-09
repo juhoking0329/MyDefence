@@ -121,7 +121,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6795143007474814669}
-  - component: {fileID: 1512836624174208205}
+  - component: {fileID: 1984317894805064905}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -145,7 +145,7 @@ Transform:
   - {fileID: 1065910481702509213}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1512836624174208205
+--- !u!114 &1984317894805064905
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -154,9 +154,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 6167852448571706759}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23b88eed8adca474e93e957636c20b3a, type: 3}
+  m_Script: {fileID: 11500000, guid: 106e5e2d4dfafcc4ba1657764ad52865, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BulletMover
-  speed: 70
-  hitDistance: 0.2
-  hitEffectPrefab: {fileID: 3860500346616979802, guid: a1edf36ee5e1510469fee2fc1e3d6bff, type: 3}
+  m_EditorClassIdentifier: Assembly-CSharp::MyDefence.Bullet
+  moveSpeed: 50
+  impactEffect: {fileID: 3860500346616979802, guid: a1edf36ee5e1510469fee2fc1e3d6bff, type: 3}
