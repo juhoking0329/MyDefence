@@ -14,6 +14,10 @@ namespace MyDefence
 
         [Header("사망 효과")]
         [SerializeField] private GameObject deathEffectPrefab;
+
+        [Header("적 이동 설정")]
+        [SerializeField] private float baseSpeed = 5f;
+        private float currentSpeed;
         #endregion
 
         #region Custom Methods
@@ -50,6 +54,27 @@ namespace MyDefence
 
             // 3. 본체 파괴
             Destroy(gameObject);
+        }
+
+        /// <summary>
+        /// 레이저에 피격당했을때 적 이동속도 감소 처리 함수
+        /// </summary>
+        void Start()
+        {
+            currentSpeed = baseSpeed;
+        }
+
+        // [신규] 속도 저하 디버프 함수
+        public void ApplySlow(float slowPercent)
+        {
+            // 40% 감속이면 기존 속도의 60%인 (1f - 0.4f)로 만듭니다.
+            currentSpeed = baseSpeed * (1f - slowPercent);
+        }
+
+        // [신규] 속도 원상복구 함수
+        public void ResetSpeed()
+        {
+            currentSpeed = baseSpeed;
         }
         #endregion
     }

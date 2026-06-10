@@ -1,114 +1,75 @@
-using Unity.Hierarchy;
+// 경로: Assets/MyDefence/Scripts/TowersScripts/Tower.cs
 using UnityEngine;
 
 namespace MyDefence
 {
     /// <summary>
-    /// 타워를 관리하는 클래스
+    /// 타워를 관리하는 클래스, 타워들의 공통기능을 가진 부모 클래스
     /// </summary>
     public class Tower : MonoBehaviour
     {
         #region Variables
-        private GameObject target;          //공격 범위안에 있는 가장 가까운 적
-        public float attackRange = 7.0f;    //타워 공격 범위    
+        [Header("타워 기본 능력치")]
+        [SerializeField] protected Transform turretHead;
+        [SerializeField] protected float attackRange = 7f;
+        [SerializeField] protected float rotationSpeed = 10f;
 
-        //타워 회전
-        public Transform partToRotate;      //타워의 회전을 관리하는 오브젝트
-        public float turnSpeed = 10f;
-
-        //SearchTimer 0.2초
-        public float searchTimer = 0.2f;
-        private float countdown = 0f;
-
-        //발사 타이머 1초에 한발씩
-        public float fireTimer = 1.0f;
-        private float fireCountdown = 0f;
-
-        //탄환 발사
-        private GameObject bulletPrefab;        //탄환 오브젝트 프리팹   
-        public Transform firePoint;             //탄환 발사 위치
+        protected Transform target; // 부모가 탐색한 가장 가까운 적
         #endregion
 
-        #region Unity Events Methods
-        private void Update()
+        #region Unity Event Methods
+        protected virtual void Start()
         {
-            //0.2초마다 한번씩 공격 범위안에 있는 가장 가까운 적 찾기
-            countdown += Time.deltaTime;
-            if (countdown >= searchTimer)
+            InvokeRepeating("UpdateTarget", 0f, 0.2f);
+        }
+
+        protected virtual void Update()
+        {
+            // [★구조 변경] 현재 조준해야 할 최종 타겟을 결정합니다.
+            Transform currentLookTarget = GetCurrentLookTarget();
+
+            if (currentLookTarget == null)
             {
-                //타이머 실행문
-                UpdateTarget();
-
-                //타이머 초기화
-                countdown = 0f;
-            }
-
-            //타겟을 못 찾았으면
-            if (target == null)
+                OnTargetLost();
                 return;
-
-            //
-
-            fireCountdown += Time.deltaTime;
-            if(fireCountdown >= fireTimer)
-            {
-                //Debug.Log("Shoot");
-                Shoot();
-                fireCountdown = 0f; fireTimer = 1.0f;
             }
 
-            //타겟(가장 가까운 Enemy)의 움직임에 따라 터렛 헤드가 타겟 방향으로 회전한다
-            Vector3 dir = target.transform.position - partToRotate.position;
-            //목표 방향에 해당되는 회전값 구하기
-            Quaternion lookRotation = Quaternion.LookRotation(dir);
-            partToRotate.rotation = Quaternion.Lerp(partToRotate.rotation, lookRotation, Time.deltaTime * turnSpeed);
+            // 부모가 탐색한 적이든, 자식이 고정한 적이든 결정된 대상을 향해 회전합니다.
+            LockOnTarget(currentLookTarget);
 
+            // 공격 실행
+            Attack();
         }
 
-        //해당(this, 스크립트가 붙어있는) 오브젝트를 선택했을때만 기즈모를 그린다.
-        private void OnDrawGizmosSelected()
+        protected virtual void OnDrawGizmosSelected()
         {
-            Gizmos.color = Color.red;
-            //타워를 중심으로 반경이 7인 구를 그린다
-            //Gizmos.DrawSphere(transform.position, attackRange);
-            //타워를 중심으로 반경이 7인 와이어 구를 그린다
-            Gizmos.DrawWireSphere(transform.position, attackRange);     
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(transform.position, attackRange);
         }
         #endregion
-        #region 
-        /* //항상 기즈모를 그린다
-        private void OnDrawGizmos() 
-        {
-        
-        }
-        */
-        #endregion
 
-        #region Custom Method
-        //3. 터렛에서 가장 가까운 적 찾아(Tag "Enemy") 타겟으로 설정
-        void UpdateTarget()
+        #region Custom Methods
+        protected void UpdateTarget()
         {
-            GameObject[] enemies;
-            enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
-            GameObject closest = null;          //가장 가까운 enemy
-            float minDistance = Mathf.Infinity;    //최소 거리
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            float shortestDistance = Mathf.Infinity;
+            GameObject nearestEnemy = null;
 
             foreach (GameObject enemy in enemies)
             {
-                //적과의 거리 구하기
-                float distanceToEnemy = Vector3.Distance(enemy.transform.position, this.transform.position);
-                if(distanceToEnemy < minDistance)
+                if (enemy == null) continue;
+
+                float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position);
+                if (distanceToEnemy < shortestDistance)
                 {
-                    minDistance = distanceToEnemy;
-                    closest = enemy;        //최소 거리에 해당되는 적
+                    shortestDistance = distanceToEnemy;
+                    nearestEnemy = enemy;
                 }
             }
 
-            //closest 검증
-            if (closest != null && minDistance <= attackRange)
+            if (nearestEnemy != null && shortestDistance <= attackRange)
             {
-                target = closest;
+                target = nearestEnemy.transform;
             }
             else
             {
@@ -116,27 +77,28 @@ namespace MyDefence
             }
         }
 
-        /*//타겟(가장 가까운 Enemy)의 움직임에 따라 터렛 헤드가 타겟 방향으로 회전한다
-        Vector3 dir = target.transform.position - partToRotate.position;
-        //목표 방향에 해당되는 회전값 구하기
-        private Quaternion lookRotation = Quaternion.LookRotation(dir);
-        */
-
-        //탄환 발사
-        void Shoot()
+        /// <summary>
+        /// [★변경] 매개변수로 타겟을 받아 조준하도록 수정하여 자식의 고정 타겟 조준을 지원합니다.
+        /// </summary>
+        protected void LockOnTarget(Transform lookTarget)
         {
-            //Debug.Log("Shoot");
-            //총구 위치와 회전값에 탄환 프리팹 사본 생성(Instantiate)
-            GameObject bulletGo = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-            //탄환 오브젝트에 부착되어 있는 Bullet 클래스의 인스턴스 가져오기
-            Bullet bullet = bulletGo.GetComponent<Bullet>();
-
-            //타겟정보를 bullet에게 넘겨준다
-            if (bullet != null)
-            {
-                bullet.SetTarget(target.transform);
-            }
+            Vector3 dir = lookTarget.position - transform.position;
+            Quaternion lookRotation = Quaternion.LookRotation(dir);
+            Vector3 rotation = Quaternion.Lerp(turretHead.rotation, lookRotation, Time.deltaTime * rotationSpeed).eulerAngles;
+            turretHead.rotation = Quaternion.Euler(0f, rotation.y, 0f);
         }
+
+        /// <summary>
+        /// [★신규] 자식 타워가 조준 대상을 직접 제어할 수 있도록 징검다리를 열어둡니다.
+        /// 기본적으로는 부모가 찾은 target을 반환합니다.
+        /// </summary>
+        protected virtual Transform GetCurrentLookTarget()
+        {
+            return target;
+        }
+
+        protected virtual void Attack() { }
+        protected virtual void OnTargetLost() { }
         #endregion
     }
 }
