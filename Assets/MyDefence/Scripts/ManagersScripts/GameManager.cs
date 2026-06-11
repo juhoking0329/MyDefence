@@ -10,6 +10,8 @@ namespace MyDefence
         #region Unity Event Methods
         void Update()
         {
+            if (GameData.isGameOver) return; // 게임오버 시 모든 입력 차단
+
             // 과제 2) M키를 누르면 100,000 골드를 보너스로 지급하는 치트키
             if (Input.GetKeyDown(KeyCode.M))
             {

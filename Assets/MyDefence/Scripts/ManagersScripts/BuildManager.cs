@@ -9,6 +9,11 @@ namespace MyDefence
 
         #region Variables
         private TowerBlueprint towerToBuild = null;
+
+        [Header("타워 블루프린트 등록")]
+        [SerializeField] private TowerBlueprint machineGunBlueprint;
+        [SerializeField] private TowerBlueprint RocketTowerBlueprint;
+        [SerializeField] private TowerBlueprint LaserTowerBlueprint;
         #endregion
 
         #region Unity Event Methods
@@ -26,6 +31,23 @@ namespace MyDefence
             towerToBuild = blueprint;
         }
 
+        public void SelectMachineGunTower()
+        {
+            Debug.Log("머신건 타워 선택!");
+            SelectTower(machineGunBlueprint);
+        }
+
+        public void SelectRocketTower()
+        {
+            Debug.Log("미사일 타워 선택!");
+            SelectTower(RocketTowerBlueprint);
+        }
+
+        public void SelectLaserTower()
+        {
+            Debug.Log("레이저 타워 선택!");
+            SelectTower(LaserTowerBlueprint);
+        }
         public bool HasTowerSelected => towerToBuild != null;
 
         /// <summary>

@@ -1,81 +1,98 @@
+// 경로: Assets/MyDefence/Scripts/EnemiesScripts/Enemy.cs
 using UnityEngine;
 
 namespace MyDefence
 {
-    /// <summary>
-    /// 적의 체력, 피격, 사망 및 보상 지급을 관리하는 클래스
-    /// </summary>
     public class Enemy : MonoBehaviour
     {
-        #region Variables
         [Header("적 능력치 설정")]
-        [SerializeField] private float hp = 100f;          // 실시간 소수점 데미지를 받기 위해 float 유지
-        [SerializeField] private int rewardGold = 50;
-
-        [Header("사망 효과")]
-        [SerializeField] private GameObject deathEffectPrefab;
-
-        [Header("적 이동 설정")]
+        [SerializeField] private float maxHealth = 100f;
         [SerializeField] private float baseSpeed = 5f;
-        private float currentSpeed;
-        #endregion
 
-        #region Custom Methods
-        /// <summary>
-        /// 머신건, 미사일, 레이저 등 어떤 타워에 맞든 묵묵히 정밀하게 피만 깎아주는 공용 함수
-        /// </summary>
+        private float laserHitTimer = 0f;          // 레이저 피격 누적 시간
+        private bool isSlowed = false;             // 현재 감속 중인지
+
+        private float currentHealth;
+        private float currentSpeed;
+        private bool isSlowedThisFrame = false; // 이번 프레임에 레이저를 맞았는지 체크
+
+        public float GetCurrentSpeed()
+        {
+            return currentSpeed;
+        }
+
+        void Start()
+        {
+            currentHealth = maxHealth;
+            currentSpeed = baseSpeed;
+        }
+
+        void Update()
+        {
+            // --- 적 이동 로직 (기존 코드 유지) ---
+            // 예: transform.Translate(Vector3.forward * currentSpeed * Time.deltaTime);
+
+            // [0번 버그 해결] 이번 프레임에 레이저 공격을 안 받았다면 속도를 서서히 원래대로 복구
+            if (!isSlowedThisFrame)
+            {
+                laserHitTimer = 0f;   // 레이저 안 맞으면 누적 시간 초기화
+                isSlowed = false;      // 감속 상태 해제
+                currentSpeed = Mathf.MoveTowards(currentSpeed, baseSpeed, Time.deltaTime * 5f);
+            }
+
+            // 프레임 종료 전 감속 체크 초기화
+            isSlowedThisFrame = false;
+
+            // [2번 버그 해결] 적이 End 지점에 도달했는지 검사 (거리나 조건에 맞게 수치 조절 필요)
+            // 여기서는 예시로 Z축 특정 위치나 목적지 도달 조건을 체크합니다.
+            // if (목적지 도달 조건) { ReachEnd(); }
+        }
+
+        // [0번 버그 해결] 레이저 타워가 매 프레임 호출해줄 감속 함수
+        public void ApplySlow(float slowPercent)
+        {
+            isSlowedThisFrame = true;
+            laserHitTimer += Time.deltaTime;       // 피격 시간 누적
+
+            if (laserHitTimer >= 1f && !isSlowed) // 1초 이상 맞았을 때 감속 적용
+            {
+                isSlowed = true;
+                currentSpeed = baseSpeed * (1f - slowPercent);
+            }
+        }
+
         public void TakeDamage(float damage)
         {
-            // 실시간 데미지 차감
-            hp -= damage;
-
-            // 체력이 0 이하가 되면 사망 처리
-            if (hp <= 0f)
+            currentHealth -= damage;
+            if (currentHealth <= 0)
             {
                 Die();
             }
         }
 
-        /// <summary>
-        /// 적이 죽을 때 호출되는 보상 지급 및 이펙트 처리 함수
-        /// </summary>
         private void Die()
         {
-            // 1. 리워드 골드 지급
-            GameData.money += rewardGold;
-            Debug.Log($"처치! {rewardGold} Gold 획득! 현재 소지금: {GameData.money} Gold");
-
-            // 2. 사망 파티클 이펙트 생성
-            if (deathEffectPrefab != null)
-            {
-                GameObject effect = Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
-                Destroy(effect, 2f);
-            }
-
-            // 3. 본체 파괴
+            GameData.money += 50;
             Destroy(gameObject);
         }
 
         /// <summary>
-        /// 레이저에 피격당했을때 적 이동속도 감소 처리 함수
+        /// [2번 버그 해결] 적이 기지(종점)에 도달했을 때 실행되는 함수
         /// </summary>
-        void Start()
+        public void ReachEnd()
         {
-            currentSpeed = baseSpeed;
-        }
+            if (GameData.lives > 0)
+            {
+                GameData.lives--; // 라이프 1 차감 (실시간 반영)
+                Debug.Log($"💥 적 침입! 남은 라이프: {GameData.lives}");
 
-        // [신규] 속도 저하 디버프 함수
-        public void ApplySlow(float slowPercent)
-        {
-            // 40% 감속이면 기존 속도의 60%인 (1f - 0.4f)로 만듭니다.
-            currentSpeed = baseSpeed * (1f - slowPercent);
+                // 만약 라이프가 0이 되면 즉시 게임오버 트리거
+                if (GameData.lives <= 0)
+                {
+                    UIManager.instance.TriggerGameOver();
+                }
+            }
+            Destroy(gameObject); // 적 오브젝트 파괴
         }
-
-        // [신규] 속도 원상복구 함수
-        public void ResetSpeed()
-        {
-            currentSpeed = baseSpeed;
-        }
-        #endregion
     }
 }

@@ -50,7 +50,7 @@ namespace MyDefence
                     yield return new WaitForSeconds(spawnDelay);
                 }
 
-                /*// ★★★ [새로 추가된 곳] 모든 에너미가 소멸할 때까지 실시간 감시하며 대기 ★★★
+                // ★★★ [새로 추가된 곳] 모든 에너미가 소멸할 때까지 실시간 감시하며 대기 ★★★
                 // GameObject.FindGameObjectsWithTag("Enemy").Length 는 현재 맵에 있는 에너미의 총 개수입니다.
                 while (GameObject.FindGameObjectsWithTag("Enemy").Length > 0)
                 {
@@ -60,10 +60,11 @@ namespace MyDefence
                 }
 
                 // ★★★ [새로 추가된 곳] 위의 while문(대기)을 빠져나왔다는 건 적이 0마리가 되었다는 뜻! ★★★
-                Debug.Log($"<color=green>{currentWave}웨이브 클리어!</color>");*/
+                Debug.Log($"<color=green>{currentWave}웨이브 클리어!</color>");
 
                 // --- 다음 웨이브 준비를 '소환이 모두 완전히 끝난 뒤'에 합니다 ---
                 currentWave++;
+                GameData.roundsSurvived++;
 
                 // --- 5초 카운트다운 타이머 구간 ---
                 float countdown = 5.0f;

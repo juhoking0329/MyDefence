@@ -92,7 +92,7 @@ namespace MyDefence
         {
             if (bulletPrefab == null || firePoint == null || lockedTarget == null) return;
 
-            Debug.Log($"🎯 [MACHINEGUN] 단일 타겟 사격: {lockedTarget.name} (다음 발사 대기: {fireRate}초)");
+            Debug.Log("머신건 공격 중...");
 
             // 총구 위치와 회전값으로 탄환 객체 생성
             GameObject bulletGo = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);

@@ -1,181 +1,149 @@
-// 경로: Assets/MyDefence/Scripts/Managers/UIManager.cs
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using TMPro;
+    // 경로: Assets/MyDefence/Scripts/Managers/UIManager.cs
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
+    using UnityEngine.UI;
+    using TMPro;
 
-namespace MyDefence
-{
-    public class UIManager : MonoBehaviour
+    namespace MyDefence
     {
-        public static UIManager instance;
-
-        [Header("상점 품목 데이터 관리 (기존)")]
-        [SerializeField] private TowerBlueprint machineGunTower;
-        [SerializeField] private TowerBlueprint rocketTower;
-        [SerializeField] private TowerBlueprint laserTower;
-
-        [Header("0번 과제: 인게임 UI 텍스트")]
-        [SerializeField] private TextMeshProUGUI livesText;
-        [SerializeField] private TextMeshProUGUI moneyText;
-
-        [Header("1~4번 과제: 게임오버 UI")]
-        [SerializeField] private GameObject gameOverUI;
-        [SerializeField] private TextMeshProUGUI roundsSurvivedText;
-        [SerializeField] private Animator gameOverAnimator; // 4번 과제용 애니메이터 (선택)
-
-        [Header("5~7번 과제: 일시정지 UI")]
-        [SerializeField] private GameObject pauseUI;
-        private bool isPaused = false;
-
-        #region Unity Event Methods
-        private void Awake()
+        public class UIManager : MonoBehaviour
         {
-            if (instance == null) instance = this;
-            else Destroy(gameObject);
-        }
+            public static UIManager instance;
 
-        private void Start()
-        {
-            // 게임 시작 시 모든 UI 초기 상태 설정
-            if (gameOverUI != null) gameOverUI.SetActive(false);
-            if (pauseUI != null) pauseUI.SetActive(false);
+            [Header("인게임 UI 텍스트")]
+            [SerializeField] private TextMeshProUGUI livesText;
+            [SerializeField] private TextMeshProUGUI moneyText;
 
-            // 일시정지 해제 상태로 시작
-            Time.timeScale = 1f;
-        }
+            [Header("게임오버 UI")]
+            [SerializeField] private GameObject gameOverUI;
+            [SerializeField] private TextMeshProUGUI roundsSurvivedText;
 
-        private void Update()
-        {
-            // 실시간 인게임 텍스트 갱신 (0번 과제)
-            UpdateInGameUI();
+            [Header("일시정지 UI")]
+            [SerializeField] private GameObject pauseUI;
 
-            // 3번 과제: 치트키 "O" 키를 누르면 게임오버 UI 활성화
-            if (Input.GetKeyDown(KeyCode.O))
+            private bool isPaused = false;
+
+            // [변경] static으로 만들어 씬이 완전히 새로 켜져도 이 대기 상태 상태를 기억할 수 있게 합니다.
+            private static bool isWaitingForStart = false;
+
+            private void Awake()
             {
-                TriggerGameOver();
+                if (instance == null) instance = this;
+                else Destroy(gameObject);
             }
 
-            // 6번 과제: ESC 키 입력시 Pause 활성화/비활성화 토글
-            if (Input.GetKeyDown(KeyCode.Escape))
+            private void Start()
             {
-                TogglePause();
+                if (gameOverUI != null) gameOverUI.SetActive(false);
+                if (pauseUI != null) pauseUI.SetActive(false);
+
+                // [★핵심 수정] 씬이 새로 로드되었을 때, 메인메뉴 대기 상태인지 검사합니다.
+                if (isWaitingForStart)
+                {
+                    Time.timeScale = 0f; // 메인메뉴 클릭 후 들어왔다면 안전하게 여기서 화면을 정지시킵니다.
+                    Debug.Log("⏸️ 메인 메뉴 대기 상태: 아무 키나 누르면 시작합니다.");
+                }
+                else
+                {
+                    Time.timeScale = 1f; // 일반 시작이나 RESTART일 때는 정상 작동하도록 1로 세팅합니다.
+                }
             }
-        }
-        #endregion
 
-        #region Custom UI Methods
-        /// <summary>
-        /// 0번 과제: 라이프와 소지금을 화면에 그려주는 함수
-        /// </summary>
-        private void UpdateInGameUI()
-        {
-            if (livesText != null) livesText.text = $"LIVES: {GameData.lives}";
-            if (moneyText != null) moneyText.text = $"{GameData.money} G";
-        }
-
-        /// <summary>
-        /// 3번 과제: 게임오버 조건 발동 시 UI를 켜는 함수
-        /// </summary>
-        public void TriggerGameOver()
-        {
-            if (gameOverUI == null) return;
-
-            // 1번 과제: 버틴 라운드 수 반영
-            if (roundsSurvivedText != null)
+            private void Update()
             {
-                roundsSurvivedText.text = $"{GameData.roundsSurvived} ROUNDS SURVIVED";
+                // 실시간 인게임 UI 텍스트 갱신
+                if (livesText != null) livesText.text = $"LIVES: {GameData.lives}";
+                if (moneyText != null) moneyText.text = $"{GameData.money} G";
+
+                // 메인 메뉴 누른 후 대기 상태일 때 처리
+                if (isWaitingForStart)
+                {
+                    // [★버그 완치 수정] 마우스 클릭을 제외하고, '키보드 아무 키'나 '스페이스바'를 누르면 시작하게 바꿉니다.
+                    // 마우스 클릭을 조건에서 빼야 상점/타일 클릭이 꼬이지 않습니다!
+                    if (Input.anyKeyDown && !Input.GetMouseButtonDown(0) && !Input.GetMouseButtonDown(1))
+                    {
+                        StartGameFromMenu();
+                    }
+                    return; // 대기 중에는 아래 ESC나 치트키 입력을 무시합니다.
+                }
+
+                // 치트키 O 누르면 게임오버 활성화
+                if (Input.GetKeyDown(KeyCode.O))
+                {
+                    TriggerGameOver();
+                }
+
+                // ESC 키 입력시 Pause 토글
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    TogglePause();
+                }
             }
 
-            gameOverUI.SetActive(true);
-
-            // 4번 과제: 애니메이션 재생 (트리거명이 있으면 작동)
-            if (gameOverAnimator != null)
+            public void TriggerGameOver()
             {
-                gameOverAnimator.SetTrigger("GameOverIn");
+                if (gameOverUI == null) return;
+
+                GameData.isGameOver = true;
+
+                if (roundsSurvivedText != null)
+                {
+                    roundsSurvivedText.text = $"{GameData.roundsSurvived} ROUNDS SURVIVED";
+                }
+
+                gameOverUI.SetActive(true);
+                Time.timeScale = 0f;
             }
 
-            // 게임오버 시 게임을 멈추고 싶다면 하단 주석 해제
-            Time.timeScale = 0f; 
-        }
-
-        /// <summary>
-        /// 6번 과제: ESC 눌렀을 때 시간SCALE을 제어하여 일시정지하는 함수
-        /// </summary>
-        public void TogglePause()
-        {
-            // 만약 게임오버 창이 켜져있다면 일시정지 금지
-            if (gameOverUI != null && gameOverUI.activeSelf) return;
-
-            isPaused = !isPaused;
-            pauseUI.SetActive(isPaused);
-
-            if (isPaused)
+            public void TogglePause()
             {
-                Time.timeScale = 0f; // 적들의 움직임, 카운트다운 전체 정지 (6번 과제 핵심 스킬)
-                Debug.Log("⏸️ 게임 일시 정지 (TimeScale = 0)");
+                if (gameOverUI != null && gameOverUI.activeSelf) return;
+
+                isPaused = !isPaused;
+                pauseUI.SetActive(isPaused);
+                Time.timeScale = isPaused ? 0f : 1f;
             }
-            else
+
+            public void ClickRestartButton()
             {
-                Time.timeScale = 1f; // 게임 다시 진행
-                Debug.Log("▶️ 게임 재개 (TimeScale = 1)");
+                GameData.isGameOver = false;
+
+                Debug.Log("Run RESTART");
+
+                // 모든 데이터 리셋
+                GameData.money = 400;
+                GameData.lives = 10;
+                GameData.roundsSurvived = 0;
+                isWaitingForStart = false; // 재시작 시에는 대기하지 않음
+
+                Time.timeScale = 1f; // 타임스케일을 확실히 풀고 로드!
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
+
+            public void ClickMainMenuButton()
+            {
+                GameData.isGameOver = false;
+
+                Debug.Log("Goto Menu");
+
+                // 1. 게임 데이터 초기화
+                GameData.money = 400;
+                GameData.lives = 10;
+                GameData.roundsSurvived = 0;
+
+                // 2. 씬이 로드된 후 대기하도록 플래그를 미리 true로 세팅
+                isWaitingForStart = true;
+
+                // 3. 타임스케일을 일단 1f로 둔 상태에서 안전하게 씬을 다시 로드합니다.
+                Time.timeScale = 1f;
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
+
+            private void StartGameFromMenu()
+            {
+                Debug.Log("▶️ 게임 시작! 타임스케일 정상 가동.");
+                isWaitingForStart = false;
+                Time.timeScale = 1f; // 대기가 풀리면서 정상적으로 1f로 작동하므로 타워 설치가 정상화됩니다!
             }
         }
-        #endregion
-
-        #region Button Event Methods (2번 및 7번 과제)
-        /// <summary>
-        /// RESTART 버튼 클릭 시 실행되는 함수
-        /// </summary>
-        public void ClickRestartButton()
-        {
-            Debug.Log("Run RESTART"); // 과제 요구사항 출력
-
-            // 타임스케일을 정상 복구하고 현재 씬을 새로고침(재시작)합니다.
-            Time.timeScale = 1f;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
-
-        /// <summary>
-        /// MAIN MENU 버튼 클릭 시 실행되는 함수
-        /// </summary>
-        public void ClickMainMenuButton()
-        {
-            Debug.Log("Goto Menu"); // 과제 요구사항 출력
-
-            // 타임스케일을 정상 복구하고 메인메뉴 씬으로 이동합니다.
-            Time.timeScale = 1f;
-            // SceneManager.LoadScene("MainMenuScene"); // 나중에 메인메뉴 씬을 만들면 주석해제 하세요!
-        }
-
-        // --- 기존 상점 버튼들 (유지) ---
-        public void ClickMachineGunButton()
-        {
-            if (GameData.money < machineGunTower.cost) 
-            { 
-                Debug.Log("❌ 돈이 부족합니다!"); 
-                return; 
-            }
-            BuildManager.instance.SelectTower(machineGunTower);
-        }
-        public void ClickRocketTowerButton()
-        {
-            if (GameData.money < rocketTower.cost) 
-            { 
-                Debug.Log("❌ 돈이 부족합니다!"); 
-                return; 
-            }
-            BuildManager.instance.SelectTower(rocketTower);
-        }
-        public void ClickLaserTowerButton()
-        {
-            if (GameData.money < laserTower.cost) 
-            { 
-                Debug.Log("❌ 돈이 부족합니다!"); 
-                return; 
-            }
-            BuildManager.instance.SelectTower(laserTower);
-        }
-        #endregion
     }
-}

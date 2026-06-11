@@ -13,6 +13,7 @@ namespace MyDefence
         public static int money = 400;
         public static int lives = 10;        // 0번 과제: 라이프 10개 설정
         public static int roundsSurvived = 0; // 1번 과제: 버틴 라운드 수 카운트
+        public static bool isGameOver = false;
 
         [Header("실시간 UI 연동")]
         [SerializeField] private TextMeshProUGUI goldTextUI; // 화면 우측 상단의 GoldText 오브젝트가 들어갈 칸
