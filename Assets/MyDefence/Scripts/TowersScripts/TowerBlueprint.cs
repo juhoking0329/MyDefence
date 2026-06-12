@@ -2,13 +2,15 @@ using UnityEngine;
 
 namespace MyDefence
 {
-    /// <summary>
-    /// 과제 1) 상점에서 판매할 타워 품목의 정보를 담는 직렬화 클래스
-    /// </summary>
     [System.Serializable]
     public class TowerBlueprint
     {
-        public GameObject towerPrefab;  // 생성할 타워 프리팹
-        public int cost;                // 타워 설치 비용
+        [Header("1단계 기본 데이터")]
+        public GameObject towerPrefab;
+        public int cost;
+
+        [Header("2단계 업그레이드 데이터 [★5-1 추가]")]
+        public GameObject upgradePrefab; // 업그레이드될 머신건_2 프리팹
+        public int upgradeCost;          // 업그레이드 가격 (150 Gold)
     }
 }

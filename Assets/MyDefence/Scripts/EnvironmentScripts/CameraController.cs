@@ -23,7 +23,7 @@ namespace MyDefence
             // -------------------------------------------------------------
             // 과제 4: ESC 키 토글 (누를 때마다 온/오프 체인지)
             // -------------------------------------------------------------
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.BackQuote))
             {
                 isMovementEnabled = !isMovementEnabled; // true면 false로, false면 true로 전환
                 Debug.Log($"카메라 이동 상태 변경: {isMovementEnabled}");

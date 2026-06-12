@@ -12,6 +12,10 @@ namespace MyDefence
 
         private Renderer rend;
         private bool isTurretBuilt = false;
+
+        // [★과제 5번 연동 필수 변수] BuildManager가 접근할 수 있도록 public으로 선언합니다.
+        // 이 타일에 실제로 생성되어 서 있는 타워 게임오브젝트를 기억하는 상자입니다.
+        [HideInInspector] public GameObject installedTower;
         #endregion
 
         #region Unity Event Methods
@@ -46,9 +50,16 @@ namespace MyDefence
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            //Debug.Log($"TileUI: {TileUI.instance}, BuildManager: {BuildManager.instance}");
+            // -------------------------------------------------------------
+            // [★과제 2번 구현] 만약 이 타일 위에 이미 타워가 설치되어 있다면?
+            // -------------------------------------------------------------
             if (isTurretBuilt)
             {
-                Debug.Log("여기에는 이미 터렛이 설치되어 있습니다!");
+                Debug.Log("이 타일에는 이미 타워가 있습니다! 업그레이드 UI 조작 모드로 진입합니다.");
+
+                // TODO: 여기에 과제 2-1, 2-2번인 NodeUI를 띄우는 코드를 연결하게 됩니다.
+                TileUI.instance.SetTargetTile(this);
                 return;
             }
 
@@ -66,8 +77,14 @@ namespace MyDefence
             {
                 isTurretBuilt = true; // 타일에 타워가 지어졌다고 박제!
                 if (normalMaterial != null) rend.material = normalMaterial; // 색상 복구
+
+                //Debug.Log($"BuildManager: {BuildManager.instance}");
+                // [★추가] 방금 BuildManager가 이 타일 위에 소환해준 따끈따끈한 타워 오브젝트를
+                // 이 타일의 installedTower 상자에 실시간으로 쏙 저장해 둡니다!
+                // (이 처리가 되어야 나중에 BuildManager에서 이 타워를 조종하여 파괴하거나 바꿀 수 있습니다.)
+                installedTower = BuildManager.instance.GetLatestBuiltTower();
+                return;
             }
-            // (만약 isSuccess가 false(돈 부족)라면, 아무 일도 안 일어나고 타일은 계속 설치 가능한 상태로 남습니다.)
         }
         #endregion
     }
