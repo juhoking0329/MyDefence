@@ -10,6 +10,10 @@ namespace MyDefence
         [SerializeField] private Transform firePoint;
         [SerializeField] private float tickDamage = 50f;
 
+        [SerializeField] private float damageRampSpeed = 0.5f; // 1초당 늘어날 배율 (0.5면 1초마다 50%씩 강해짐)
+        [SerializeField] private float maxDamageMultiplier = 3f; // 최대 증폭 제한 (최대 3배)
+        private float currentDamageMultiplier = 1f; // 현재 데미지 배율 (기본 1배)
+
         private float damageTimer = 0f;
 
         [Header("레이저 타격 이펙트 설정")]
@@ -56,11 +60,20 @@ namespace MyDefence
                 // [0번 버그 해결] 매 프레임 실시간으로 40% 감속을 부여합니다.
                 enemy.ApplySlow(0.4f);
 
+                currentDamageMultiplier += damageRampSpeed * Time.deltaTime;
+                if (currentDamageMultiplier > maxDamageMultiplier)
+                {
+                    currentDamageMultiplier = maxDamageMultiplier;
+                }
+
                 // 1초 타이머 데미지 처리
                 damageTimer += Time.deltaTime;
                 if (damageTimer >= 1f)
                 {
-                    enemy.TakeDamage(tickDamage);
+                    // ★ 기본 데미지에 현재 증폭된 배율을 곱해서 가합니다!
+                    float finalDamage = tickDamage * currentDamageMultiplier;
+                    enemy.TakeDamage(finalDamage);
+
                     damageTimer = 0f;
                 }
             }
@@ -70,6 +83,7 @@ namespace MyDefence
         {
             if (lineRenderer.enabled) lineRenderer.enabled = false;
             damageTimer = 0f;
+            currentDamageMultiplier = 1f; // 배율 초기화!
 
             // [★이펙트 소멸] 적을 놓치거나 적이 죽었다면 지지직거리는 피격 이펙트도 즉시 청소합니다.
             ClearImpactEffect();

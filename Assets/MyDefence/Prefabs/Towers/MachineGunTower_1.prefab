@@ -141,8 +141,11 @@ MonoBehaviour:
   turretHead: {fileID: 4861835295132458}
   attackRange: 10
   rotationSpeed: 10
+  upgradePrice: 250
+  sellPrice: 200
   bulletPrefab: {fileID: 6167852448571706759, guid: 7b95ae5b76740734fb0a822d4954fefc, type: 3}
-  firePoint: {fileID: 3568451225703484102}
+  firePoints:
+  - {fileID: 3568451225703484102}
   fireRate: 0.75
 --- !u!1 &1641609401119184
 GameObject:

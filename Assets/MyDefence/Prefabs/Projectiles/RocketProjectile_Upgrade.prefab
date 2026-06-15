@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 136420752035335378}
   - component: {fileID: -5527016825349660662}
   m_Layer: 15
-  m_Name: RocketProjectile
+  m_Name: RocketProjectile_Upgrade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -220,9 +220,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MyDefence.TargetGuidedMissile
   moveSpeed: 50
-  attackDamage: 50
+  attackDamage: 75
   impactEffect: {fileID: 2833194796520619671, guid: 5fc9e3b70f0e84849a81bed2955f69db, type: 3}
-  damageRange: 3.5
+  damageRange: 4.5
 --- !u!1 &1827127167504934
 GameObject:
   m_ObjectHideFlags: 0

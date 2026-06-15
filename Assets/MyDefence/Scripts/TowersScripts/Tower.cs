@@ -14,6 +14,15 @@ namespace MyDefence
         [SerializeField] protected float attackRange = 7f;
         [SerializeField] protected float rotationSpeed = 10f;
 
+        // ★ [2단계 수정 핵심]: 모든 타워가 공통으로 가질 가격 데이터 변수 추가
+        [Header("타워 경제 설정 (UI 연동용)")]
+        [SerializeField] protected int upgradePrice; // 다음 단계 업그레이드 비용
+        [SerializeField] protected int sellPrice;    // 판매 시 돌려받는 비용 (건설가의 반값!)
+
+        // 자식 클래스나 UI 매니저가 가격을 안전하게 읽어갈 수 있도록 프로퍼티(Property) 개방
+        public int UpgradePrice => upgradePrice;
+        public int SellPrice => sellPrice;
+
         protected Transform target; // 부모가 탐색한 가장 가까운 적
         #endregion
 

@@ -50,6 +50,7 @@ namespace MyDefence
             Debug.Log("레이저 타워 선택!");
             SelectTower(LaserTowerBlueprint);
         }
+
         public bool HasTowerSelected => towerToBuild != null;
 
         /// <summary>
@@ -57,8 +58,6 @@ namespace MyDefence
         /// </summary>
         public bool BuildTowerOn(Transform tileTransform)
         {
-            //Debug.Log($"towerToBuild: {towerToBuild}, prefab: {towerToBuild?.towerPrefab}");
-
             if (towerToBuild == null) return false;
 
             // [안전장치] 만약 버튼 클릭 후 타일을 누르기 직전에 돈이 갑자기 줄어들었을 경우를 대비한 최소한의 방어코드
@@ -72,15 +71,11 @@ namespace MyDefence
             GameData.money -= towerToBuild.cost;
             Debug.Log($"건설 완료! 남은 돈 : {GameData.money} Gold");
 
-            // [★수정] 그냥 생성만 하던 코드에서, 생성된 오브젝트를 latestBuiltTower 상자에 받아두도록 수정합니다.
+            // 생성된 오브젝트를 latestBuiltTower 상자에 받아둡니다.
             latestBuiltTower = Instantiate(towerToBuild.towerPrefab, tileTransform.position, Quaternion.identity);
-
-            // [선택 사항] 타워를 하나 지으면 선택을 초기화하고 싶다면 아래 주석을 해제하세요.
-            // towerToBuild = null; 
 
             return true;
         }
-
 
         /// <summary>
         /// BuildTowerOn 함수 바로 아래에 이 배달 함수를 새로 추가합니다.
@@ -91,30 +86,70 @@ namespace MyDefence
         }
 
         /// <summary>
-        /// 5-3) 현재 선택된 타일의 타워를 업그레이드하는 함수
+        /// ★ [신규 추가] 타일 위에 서 있는 타워의 이름을 분석해서 알맞은 블루프린트로 자동 업그레이드해주는 마스터 함수
         /// </summary>
-        public void UpgradeTowerOn(Tile tile, TowerBlueprint blueprint)
+        public void UpgradeTowerByName(Tile tile, string currentTowerName)
         {
-            // 돈이 모자라면 컷
-            if (GameData.money < blueprint.upgradeCost)
+            TowerBlueprint blueprint = null;
+
+            if (currentTowerName.Contains("MachineGun")) blueprint = machineGunBlueprint;
+            else if (currentTowerName.Contains("Rocket")) blueprint = RocketTowerBlueprint;
+            else if (currentTowerName.Contains("Laser")) blueprint = LaserTowerBlueprint;
+
+            if (blueprint == null)
+            {
+                Debug.LogWarning("⚠️ 알맞은 블루프린트를 찾지 못했습니다.");
+                return;
+            }
+
+            // _1이 포함 = 2단계 타워 → 3단계로 업그레이드
+            if (currentTowerName.Contains("_1"))
+            {
+                UpgradeTowerOn(tile, blueprint, 3);
+            }
+            // _1, _2 없음 = 1단계 타워 → 2단계로 업그레이드
+            else
+            {
+                UpgradeTowerOn(tile, blueprint, 2);
+            }
+        }
+
+        /// <summary>
+        /// 5-3) 현재 선택된 타일의 타워를 업그레이드하는 함수 (데이터 완전 갱신형 보완)
+        /// </summary>
+        public void UpgradeTowerOn(Tile tile, TowerBlueprint blueprint, int targetStage)
+        {
+            GameObject prefabToSpawn = null;
+            int cost = 0;
+
+            if (targetStage == 2)
+            {
+                prefabToSpawn = blueprint.upgradePrefab;
+                cost = blueprint.upgradeCost;
+            }
+            else if (targetStage == 3)
+            {
+                prefabToSpawn = blueprint.upgradePrefab2;
+                cost = blueprint.upgradeCost2;
+            }
+
+            if (prefabToSpawn == null)
+            {
+                Debug.Log("❌ 업그레이드 프리팹이 없습니다!");
+                return;
+            }
+
+            if (GameData.money < cost)
             {
                 Debug.Log("❌ 돈이 부족하여 업그레이드할 수 없습니다!");
                 return;
             }
 
-            // 1. 돈 차감
-            GameData.money -= blueprint.upgradeCost;
-
-            // 2. 기존 타일에 설치되어 있던 1단계 타워 오브젝트 파괴
+            GameData.money -= cost;
             Destroy(tile.installedTower);
+            tile.installedTower = Instantiate(prefabToSpawn, tile.transform.position, Quaternion.identity);
 
-            // 3. 그 자리에 2단계 업그레이드 타워 프리팹 소환
-            GameObject upgradedTower = Instantiate(blueprint.upgradePrefab, tile.transform.position, Quaternion.identity);
-
-            // 4. 타일 정보에 새 타워 등록 및 상태 갱신
-            tile.installedTower = upgradedTower;
-
-            Debug.Log("🎯 타워 업그레이드 완료! 성능이 대폭 상승했습니다.");
+            Debug.Log($"🎯 {targetStage}단계 업그레이드 완료!");
         }
         #endregion
     }

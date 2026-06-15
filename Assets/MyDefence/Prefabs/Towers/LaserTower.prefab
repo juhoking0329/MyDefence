@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4285562123101454}
-  - {fileID: 4772094725469776}
+  - {fileID: 4144974882779640791}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5312991343705615184
@@ -47,12 +47,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb7729fda89b5114484e374d96266cc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MyDefence.LaserTurretController
-  turretHead: {fileID: 4772094725469776}
+  turretHead: {fileID: 4144974882779640791}
   attackRange: 7
   rotationSpeed: 10
-  lineRenderer: {fileID: 0}
+  upgradePrice: 150
+  sellPrice: 50
+  lineRenderer: {fileID: 1476841047397615807}
   firePoint: {fileID: 8781188212513187496}
   tickDamage: 30
+  damageRampSpeed: 0.5
+  maxDamageMultiplier: 1
   impactEffectPrefab: {fileID: 3278334617000820514, guid: 06221b18079fbf74a8bbbd83e2b569c1, type: 3}
 --- !u!120 &1476841047397615807
 LineRenderer:
@@ -114,7 +118,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.5
+        value: 0.75
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -126,9 +130,9 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0, b: 0, a: 1}
+      key0: {r: 1, g: 1, b: 0, a: 1}
       key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 1, g: 0, b: 0, a: 1}
+      key2: {r: 1, g: 1, b: 0, a: 1}
       key3: {r: 1, g: 0, b: 0, a: 1}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
@@ -191,13 +195,12 @@ Transform:
   m_GameObject: {fileID: 1213524718981924}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0145375775, y: 1.2603645, z: 0.00014760075}
+  m_LocalPosition: {x: -0.014537811, y: 0.5853645, z: 0.0001475811}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4154353237859892}
-  - {fileID: 8781188212513187496}
-  m_Father: {fileID: 4123545054233330}
+  m_Father: {fileID: 4144974882779640791}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &33655585176014752
 MeshFilter:
@@ -527,6 +530,39 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &455277173164673291
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4144974882779640791}
+  m_Layer: 0
+  m_Name: PartToRotate
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4144974882779640791
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 455277173164673291}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.675, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4772094725469776}
+  - {fileID: 8781188212513187496}
+  m_Father: {fileID: 4123545054233330}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &980142075444048953
 GameObject:
   m_ObjectHideFlags: 0
@@ -551,10 +587,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 980142075444048953}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.05, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.49999994, z: 0.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4772094725469776}
+  m_Father: {fileID: 4144974882779640791}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

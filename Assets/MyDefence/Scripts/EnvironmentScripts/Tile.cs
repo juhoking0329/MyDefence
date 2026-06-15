@@ -1,3 +1,4 @@
+// 경로: Assets/MyDefence/Scripts/EnvironmentScripts/Tile.cs
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -34,7 +35,7 @@ namespace MyDefence
         {
             if (isTurretBuilt) return;
 
-            // 과제 2-4) 만약 상점에서 선택한 타워가 없다면 하이라이트(머티리얼 변경) 안 함!
+            // 과제 2-4) 만약 상점에서 선택한 타워가 없다면 하이라이트 안 함!
             if (!BuildManager.instance.HasTowerSelected) return;
 
             if (hoverMaterial != null) rend.material = hoverMaterial;
@@ -50,15 +51,10 @@ namespace MyDefence
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            //Debug.Log($"TileUI: {TileUI.instance}, BuildManager: {BuildManager.instance}");
-            // -------------------------------------------------------------
             // [★과제 2번 구현] 만약 이 타일 위에 이미 타워가 설치되어 있다면?
-            // -------------------------------------------------------------
             if (isTurretBuilt)
             {
                 Debug.Log("이 타일에는 이미 타워가 있습니다! 업그레이드 UI 조작 모드로 진입합니다.");
-
-                // TODO: 여기에 과제 2-1, 2-2번인 NodeUI를 띄우는 코드를 연결하게 됩니다.
                 TileUI.instance.SetTargetTile(this);
                 return;
             }
@@ -78,13 +74,25 @@ namespace MyDefence
                 isTurretBuilt = true; // 타일에 타워가 지어졌다고 박제!
                 if (normalMaterial != null) rend.material = normalMaterial; // 색상 복구
 
-                //Debug.Log($"BuildManager: {BuildManager.instance}");
-                // [★추가] 방금 BuildManager가 이 타일 위에 소환해준 따끈따끈한 타워 오브젝트를
-                // 이 타일의 installedTower 상자에 실시간으로 쏙 저장해 둡니다!
-                // (이 처리가 되어야 나중에 BuildManager에서 이 타워를 조종하여 파괴하거나 바꿀 수 있습니다.)
                 installedTower = BuildManager.instance.GetLatestBuiltTower();
                 return;
             }
+        }
+
+        /// <summary>
+        /// ★ [신규 추가] 타워가 판매되었을 때 타일의 상태를 유령 없이 완전히 태초의 상태로 리셋하는 함수
+        /// </summary>
+        public void ResetTileState()
+        {
+            isTurretBuilt = false;       // 1. 설치 여부 거짓으로 리셋 (★유령 버그 해결 핵심!)
+            installedTower = null;       // 2. 들고 있던 타워 오브젝트 참조 완벽 청소
+
+            if (rend != null && normalMaterial != null)
+            {
+                rend.material = normalMaterial; // 3. 혹시나 꼬여있을 머티리얼 색상 원래대로 원상복구
+            }
+
+            Debug.Log("타일의 판매가 완전히 완료되었습니다!");
         }
         #endregion
     }
