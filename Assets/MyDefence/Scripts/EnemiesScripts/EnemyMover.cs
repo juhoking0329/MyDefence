@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 namespace MyDefence
 {
@@ -35,6 +36,8 @@ namespace MyDefence
         {
             // 타겟이나 방향이 설정되지 않았다면 멈춰섭니다.
             if (targetTransform == null || !isDirectionSet) return;
+
+            this.transform.LookAt(targetTransform);
 
             // 매번 방향을 새로 구하지 않고, 처음에 고정된 moveDir 방향으로만 '똑바로' 전진합니다!
             // 이 덕분에 뒤 차가 앞 차의 궤적을 그대로 일정 간격 유지하며 따라가게 됩니다.

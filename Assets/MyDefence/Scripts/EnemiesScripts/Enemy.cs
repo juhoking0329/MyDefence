@@ -1,5 +1,6 @@
 // 경로: Assets/MyDefence/Scripts/EnemiesScripts/Enemy.cs
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace MyDefence
 {
@@ -8,6 +9,8 @@ namespace MyDefence
         [Header("적 능력치 설정")]
         [SerializeField] private float maxHealth = 100f;
         [SerializeField] private float baseSpeed = 5f;
+
+        public Image healthBarImage;
 
         private float laserHitTimer = 0f;          // 레이저 피격 누적 시간
         private bool isSlowed = false;             // 현재 감속 중인지
@@ -64,6 +67,11 @@ namespace MyDefence
         public void TakeDamage(float damage)
         {
             currentHealth -= damage;
+
+            // 체력 변경될 때마다 HP바 업데이트
+            if (healthBarImage != null)
+                healthBarImage.fillAmount = currentHealth / maxHealth;
+
             if (currentHealth <= 0)
             {
                 Die();
