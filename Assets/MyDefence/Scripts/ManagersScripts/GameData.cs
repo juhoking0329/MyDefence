@@ -20,6 +20,13 @@ namespace MyDefence
         #endregion
 
         #region Unity Event Methods
+        public static void ResetData()
+        {
+            money = 400;           // 기획서 초기 소지금 (원하시는 숫자로 변경 가능)
+            lives = 10;            // 과제 0번 조건: 라이프 10개 설정
+            roundsSurvived = 0;    // 버틴 라운드 수 초기화
+        }
+
         void Update()
         {
             // 매 프레임마다 static money 변수의 값을 UI 텍스트에 실시간으로 반영합니다.

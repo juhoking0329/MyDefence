@@ -1211,6 +1211,127 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1309516645
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1388662720798128354, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2415774917009284287, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
+      propertyPath: curve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2415774917009284287, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
+      propertyPath: curve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2415774917009284287, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
+      propertyPath: curve.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2415774917009284287, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
+      propertyPath: curve.m_Curve.Array.data[1].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2415774917009284287, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
+      propertyPath: curve.m_Curve.Array.data[0].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2415774917009284287, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
+      propertyPath: curve.m_Curve.Array.data[1].inSlope
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2415774917009284287, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
+      propertyPath: curve.m_Curve.Array.data[0].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2415774917009284287, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
+      propertyPath: curve.m_Curve.Array.data[1].inWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2415774917009284287, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
+      propertyPath: curve.m_Curve.Array.data[1].outSlope
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2415774917009284287, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
+      propertyPath: curve.m_Curve.Array.data[0].outWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2415774917009284287, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
+      propertyPath: curve.m_Curve.Array.data[0].tangentMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2415774917009284287, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
+      propertyPath: curve.m_Curve.Array.data[1].tangentMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3637459488560155576, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
+      propertyPath: m_Name
+      value: SceneFader
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530232299828674342, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530232299828674342, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530232299828674342, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530232299828674342, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530232299828674342, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530232299828674342, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530232299828674342, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530232299828674342, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530232299828674342, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530232299828674342, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6068933017138178015, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6216799937151024322, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6216799937151024322, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
 --- !u!1 &1660153971
 GameObject:
   m_ObjectHideFlags: 0
@@ -30728,3 +30849,4 @@ SceneRoots:
   - {fileID: 1698863192}
   - {fileID: 678162144}
   - {fileID: 1118216404}
+  - {fileID: 1309516645}

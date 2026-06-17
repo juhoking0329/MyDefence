@@ -54,7 +54,7 @@ namespace MyDefence
             // [★과제 2번 구현] 만약 이 타일 위에 이미 타워가 설치되어 있다면?
             if (isTurretBuilt)
             {
-                Debug.Log("이 타일에는 이미 타워가 있습니다! 업그레이드 UI 조작 모드로 진입합니다.");
+                Debug.Log("업그레이드 UI 조작 모드로 진입.");
                 TileUI.instance.SetTargetTile(this);
                 return;
             }

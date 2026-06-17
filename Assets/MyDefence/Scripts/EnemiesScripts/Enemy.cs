@@ -6,18 +6,22 @@ namespace MyDefence
 {
     public class Enemy : MonoBehaviour
     {
-        [Header("적 능력치 설정")]
+        [Header("적 능력치 설정 (과제 4번)")]
         [SerializeField] private float maxHealth = 100f;
         [SerializeField] private float baseSpeed = 5f;
+        [SerializeField] private int rewardMoney = 50; // 과제 조건: 각 프리팹마다 다르게 세팅할 골드 보상
+
+        [Header("이펙트 설정")]
+        [SerializeField] private GameObject deathEffectPrefab;
 
         public Image healthBarImage;
 
-        private float laserHitTimer = 0f;          // 레이저 피격 누적 시간
-        private bool isSlowed = false;             // 현재 감속 중인지
+        private float laserHitTimer = 0f;
+        private bool isSlowed = false;
 
         private float currentHealth;
         private float currentSpeed;
-        private bool isSlowedThisFrame = false; // 이번 프레임에 레이저를 맞았는지 체크
+        private bool isSlowedThisFrame = false;
 
         public float GetCurrentSpeed()
         {
@@ -32,32 +36,23 @@ namespace MyDefence
 
         void Update()
         {
-            // --- 적 이동 로직 (기존 코드 유지) ---
-            // 예: transform.Translate(Vector3.forward * currentSpeed * Time.deltaTime);
-
-            // [0번 버그 해결] 이번 프레임에 레이저 공격을 안 받았다면 속도를 서서히 원래대로 복구
+            // [0번 버그 해결] 감속 복구 로직 유지
             if (!isSlowedThisFrame)
             {
-                laserHitTimer = 0f;   // 레이저 안 맞으면 누적 시간 초기화
-                isSlowed = false;      // 감속 상태 해제
+                laserHitTimer = 0f;
+                isSlowed = false;
                 currentSpeed = Mathf.MoveTowards(currentSpeed, baseSpeed, Time.deltaTime * 5f);
             }
 
-            // 프레임 종료 전 감속 체크 초기화
             isSlowedThisFrame = false;
-
-            // [2번 버그 해결] 적이 End 지점에 도달했는지 검사 (거리나 조건에 맞게 수치 조절 필요)
-            // 여기서는 예시로 Z축 특정 위치나 목적지 도달 조건을 체크합니다.
-            // if (목적지 도달 조건) { ReachEnd(); }
         }
 
-        // [0번 버그 해결] 레이저 타워가 매 프레임 호출해줄 감속 함수
         public void ApplySlow(float slowPercent)
         {
             isSlowedThisFrame = true;
-            laserHitTimer += Time.deltaTime;       // 피격 시간 누적
+            laserHitTimer += Time.deltaTime;
 
-            if (laserHitTimer >= 1f && !isSlowed) // 1초 이상 맞았을 때 감속 적용
+            if (laserHitTimer >= 1f && !isSlowed)
             {
                 isSlowed = true;
                 currentSpeed = baseSpeed * (1f - slowPercent);
@@ -68,9 +63,8 @@ namespace MyDefence
         {
             currentHealth -= damage;
 
-            // 체력 변경될 때마다 HP바 업데이트
             if (healthBarImage != null)
-                healthBarImage.fillAmount = currentHealth / maxHealth;
+                healthBarImage.fillAmount = (float)currentHealth / maxHealth;
 
             if (currentHealth <= 0)
             {
@@ -80,27 +74,45 @@ namespace MyDefence
 
         private void Die()
         {
-            GameData.money += 50;
+            // ★ [과제 4번/2번 반영] 기획서상의 보상 지급 및 SpawnManager에게 마리수 감소 알림
+            GameData.money += rewardMoney;
+
+            if (deathEffectPrefab != null)
+            {
+                // 적이 있던 현재 위치(transform.position)와 회전값에 파티클을 뿅! 하고 생성합니다.
+                GameObject effectGo = Instantiate(deathEffectPrefab, transform.position, transform.rotation);
+
+                // 생성된 이펙트 오브젝트를 2초 뒤에 메모리에서 자동 삭제
+                Destroy(effectGo, 2f);
+            }
+
+            if (SpawnManager.instance != null)
+            {
+                SpawnManager.instance.OnEnemyDestroyed();
+            }
+
             Destroy(gameObject);
         }
 
-        /// <summary>
-        /// [2번 버그 해결] 적이 기지(종점)에 도달했을 때 실행되는 함수
-        /// </summary>
         public void ReachEnd()
         {
             if (GameData.lives > 0)
             {
-                GameData.lives--; // 라이프 1 차감 (실시간 반영)
+                GameData.lives--;
                 Debug.Log($"💥 적 침입! 남은 라이프: {GameData.lives}");
 
-                // 만약 라이프가 0이 되면 즉시 게임오버 트리거
+                // ★ [과제 2번 반영] 종점에 닿아 사라질 때도 SpawnManager에게 마리수 감소 알림
+                if (SpawnManager.instance != null)
+                {
+                    SpawnManager.instance.OnEnemyDestroyed();
+                }
+
                 if (GameData.lives <= 0)
                 {
                     UIManager.instance.TriggerGameOver();
                 }
             }
-            Destroy(gameObject); // 적 오브젝트 파괴
+            Destroy(gameObject);
         }
     }
 }

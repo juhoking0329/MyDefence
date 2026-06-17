@@ -36,7 +36,7 @@ namespace MyDefence
         {
             if (currentTile == null) return;
 
-            transform.position = currentTile.transform.position + Vector3.up * 1.5f + Vector3.forward * 3f;
+            transform.position = currentTile.transform.position + Vector3.up * 5f; //+ Vector3.forward * 2.5f;
             transform.LookAt(transform.position + Camera.main.transform.rotation * Vector3.forward, Camera.main.transform.rotation * Vector3.up);
         }
 
@@ -84,13 +84,13 @@ namespace MyDefence
         /// </summary>
         public void OnUpgradeButtonClick()
         {
-            Debug.Log($"업그레이드 버튼 클릭됨, tower: {currentTile?.installedTower?.name}");
+            //Debug.Log($"업그레이드 버튼 클릭됨, tower: {currentTile?.installedTower?.name}");
             if (currentTile == null || currentTile.installedTower == null) return;
 
             Tower towerData = currentTile.installedTower.GetComponent<Tower>();
             if (towerData == null) return;
 
-            Debug.Log($"업그레이드 버튼 클릭됨, tower: {currentTile?.installedTower?.name}");    //주석처리해도 됨
+            //Debug.Log($"업그레이드 버튼 클릭됨, tower: {currentTile?.installedTower?.name}");
 
             // 1. 소지금 검사
             if (GameData.money < towerData.UpgradePrice)
@@ -116,7 +116,7 @@ namespace MyDefence
             Tower towerData = currentTile.installedTower.GetComponent<Tower>();
             if (towerData == null) return;
 
-            Debug.Log($"towerData: {towerData}, SellPrice: {towerData?.SellPrice}");    //주석처리해도 됨
+            //Debug.Log($"towerData: {towerData}, SellPrice: {towerData?.SellPrice}");
 
             // ★ [정산 버그 완전 방어] 파괴 전 프로퍼티를 통해 안전하게 골드 데이터 복사
             int cashBack = towerData.SellPrice;
