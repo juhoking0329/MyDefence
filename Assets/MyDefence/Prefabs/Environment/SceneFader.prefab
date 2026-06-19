@@ -111,7 +111,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4530232299828674342}
-  - component: {fileID: 2415774917009284287}
+  - component: {fileID: 3868822350641125317}
   m_Layer: 0
   m_Name: SceneFader
   m_TagString: Untagged
@@ -135,7 +135,7 @@ Transform:
   - {fileID: 873523298357003031}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2415774917009284287
+--- !u!114 &3868822350641125317
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -144,10 +144,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 3637459488560155576}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: faf2983427534224dbceafe41528ed02, type: 3}
+  m_Script: {fileID: 11500000, guid: 3a307d63f246e6f479f157fa9afab748, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SceneFader
+  m_EditorClassIdentifier: Assembly-CSharp::MyDefence.SceneFader
   img: {fileID: 6216799937151024322}
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  isFadeIn: 0
 --- !u!1 &6068933017138178015
 GameObject:
   m_ObjectHideFlags: 0

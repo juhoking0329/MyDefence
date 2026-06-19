@@ -79,6 +79,27 @@ namespace MyDefence
             {
                 Debug.Log("최종 종점 도착, 라이프가 깎입니다.");
 
+                // ========================================================
+                // ★★★ [과제 4, 5번 임시 테스트용 세이브 로직] ★============
+                // 아직 GameManager가 없으므로, 종점에 도달해 스테이지가 끝나는 순간 
+                // 현재 씬의 이름을 체크하여 다음 레벨을 강제로 언락(Save)해 줍니다!
+                string currentSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+                int savedLevel = PlayerPrefs.GetInt("ReachedLevel", 1);
+
+                if (currentSceneName == "Level01" && savedLevel == 1)
+                {
+                    PlayerPrefs.SetInt("ReachedLevel", 2); // 2레벨 언락!
+                    PlayerPrefs.Save();
+                    Debug.Log("💾 [Save] Level01 클리어 데이터 저장 완료! (2레벨 언락됨)");
+                }
+                else if (currentSceneName == "Level02" && savedLevel == 2)
+                {
+                    PlayerPrefs.SetInt("ReachedLevel", 3); // 3레벨 언락!
+                    PlayerPrefs.Save();
+                    Debug.Log("💾 [Save] Level02 클리어 데이터 저장 완료! (3레벨 언락됨)");
+                }
+                // ========================================================
+
                 if (enemy != null)
                 {
                     enemy.ReachEnd(); // 라이프 차감 + Destroy 처리

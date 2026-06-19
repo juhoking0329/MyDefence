@@ -119,11 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &22869038 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8044746286348192280, guid: fe8c62ffe581a7948a5f0bb4524194f8, type: 3}
-  m_PrefabInstance: {fileID: 1866923784}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &178922489
 GameObject:
   m_ObjectHideFlags: 0
@@ -692,7 +687,7 @@ GameObject:
   m_Component:
   - component: {fileID: 678162144}
   - component: {fileID: 678162143}
-  - component: {fileID: 678162142}
+  - component: {fileID: 678162145}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -700,37 +695,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &678162142
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 678162141}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.UI.InputSystemUIInputModule
-  m_SendPointerHoverToParent: 1
-  m_MoveRepeatDelay: 0.5
-  m_MoveRepeatRate: 0.1
-  m_XRTrackingOrigin: {fileID: 0}
-  m_ActionsAsset: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_PointAction: {fileID: -1654692200621890270, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_MoveAction: {fileID: -8784545083839296357, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_SubmitAction: {fileID: 392368643174621059, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_CancelAction: {fileID: 7727032971491509709, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_LeftClickAction: {fileID: 3001919216989983466, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_MiddleClickAction: {fileID: -2185481485913320682, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_RightClickAction: {fileID: -4090225696740746782, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_ScrollWheelAction: {fileID: 6240969308177333660, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_TrackedDevicePositionAction: {fileID: 6564999863303420839, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_DeselectOnBackgroundClick: 1
-  m_PointerBehavior: 0
-  m_CursorLockBehavior: 0
-  m_ScrollDeltaPerTick: 6
 --- !u!114 &678162143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -761,6 +725,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &678162145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 678162141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.StandaloneInputModule
+  m_SendPointerHoverToParent: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
 --- !u!1 &695964921
 GameObject:
   m_ObjectHideFlags: 0
@@ -1082,7 +1066,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44b63e8bd2b9963419f263caa60dac59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MyDefence.MainMenu
-  loadToScene: PlayScene
+  loadToScene: LevelSelect
 --- !u!4 &1118216404
 Transform:
   m_ObjectHideFlags: 0
@@ -1274,6 +1258,10 @@ PrefabInstance:
     - target: {fileID: 3637459488560155576, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
       propertyPath: m_Name
       value: SceneFader
+      objectReference: {fileID: 0}
+    - target: {fileID: 3868822350641125317, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
+      propertyPath: isFadeIn
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4530232299828674342, guid: bf47b9f30c1292341b0a919b4e2a873e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1717,10 +1705,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8044746286348192280, guid: fe8c62ffe581a7948a5f0bb4524194f8, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1866923788}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe8c62ffe581a7948a5f0bb4524194f8, type: 3}
 --- !u!4 &1866923785 stripped
 Transform:
@@ -1732,21 +1717,6 @@ ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 8864241931600934368, guid: fe8c62ffe581a7948a5f0bb4524194f8, type: 3}
   m_PrefabInstance: {fileID: 1866923784}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1866923788
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 22869038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8553fdf0434d17146ba7dc1caff5a0ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MyDefence.IntervalParticlePlay
-  particle: {fileID: 1866923787}
-  interval: 4
-  initialDelay: 2
 --- !u!4 &87354750014928924
 Transform:
   m_ObjectHideFlags: 0
@@ -6514,6 +6484,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1303415857452011657}
+  - component: {fileID: 1303415857452011658}
   m_Layer: 10
   m_Name: LaserTower_1
   m_TagString: Untagged
@@ -6656,6 +6627,21 @@ Transform:
   - {fileID: 3783581359393359288}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1303415857452011658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297315294761173157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8b52864c6da5454b99702556b06adbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MyDefence.IntervalParticlePlay
+  particleEffect: {fileID: 1866923787}
+  playTimer: 4
+  delayTime: 1
 --- !u!4 &1303477514233629743
 Transform:
   m_ObjectHideFlags: 0
@@ -7166,6 +7152,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7854305656568308569}
+  - component: {fileID: 7854305656568308570}
   m_Layer: 10
   m_Name: EnergyPylon_2
   m_TagString: Untagged
@@ -26137,10 +26124,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7816263872567960060}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9f1106d767a5374c91a94d2cc5fb6bb, type: 3}
+  m_Script: {fileID: 11500000, guid: 1b79a896d4967bf4d9842b2b740d3864, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MyDefence.Rotater
-  rotationSpeed: {x: 0, y: 0.2, z: 0}
+  rotationSpeed: {x: 0, y: 0.3, z: 0}
 --- !u!4 &7854305656568308569
 Transform:
   m_ObjectHideFlags: 0
@@ -26158,6 +26145,21 @@ Transform:
   - {fileID: 5189105360559039383}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7854305656568308570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3472347232827424011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8b52864c6da5454b99702556b06adbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MyDefence.IntervalParticlePlay
+  particleEffect: {fileID: 762439302686707690}
+  playTimer: 3
+  delayTime: 1
 --- !u!1 &8201240743909362350
 GameObject:
   m_ObjectHideFlags: 0
@@ -26169,7 +26171,6 @@ GameObject:
   - component: {fileID: 5189105360559039383}
   - component: {fileID: 762439302686707690}
   - component: {fileID: 3230221600752520149}
-  - component: {fileID: 8201240743909362351}
   m_Layer: 10
   m_Name: EneryPylon_PFX
   m_TagString: Untagged
@@ -26177,21 +26178,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &8201240743909362351
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8201240743909362350}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8553fdf0434d17146ba7dc1caff5a0ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MyDefence.IntervalParticlePlay
-  particle: {fileID: 762439302686707690}
-  interval: 3
-  initialDelay: 1
 --- !u!198 &8880881215815436934
 ParticleSystem:
   m_ObjectHideFlags: 0

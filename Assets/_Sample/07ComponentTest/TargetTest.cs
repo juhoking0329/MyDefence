@@ -1,4 +1,4 @@
-using TMPro.EditorUtilities;
+using TMPro;
 using UnityEngine;
 
 namespace MySample
